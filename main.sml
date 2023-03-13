@@ -93,7 +93,15 @@ fun division_last_digit(x,y,c)= if compare(y,x) then c else division_last_digit(
 fun divide_integer_part(x,y)= if compare(y,x) then [[0],x] else let val l= division_last_digit(x,y,1) val r= divide_integer_part(subtract(x,multiply(y,l,0)),tl(y)) in [l::hd(r),hd(tl(r))] end;
 (*gives the integer part of the quotient when dividing x by y*)
 
-fun divide_decimal_part(x,y,rem)= ;
+fun split(l,n)= if n=0 then [[],l] else let val r=split(tl(l),n-1) in [hd(l)::hd(r),hd(tl(r))] end;
+(*splits a list into two lists at the nth position*)
+
+fun index(l,x)= if l=[] then -1 else if hd(l)=x then 0 else 1+index(tl(l),x);
+(*gives the index of the first occurence of x in l*)
+
+fun divide_decimal_part(x,y,rem,ans)= if clean(x)==[] then [ans,[]] else let l=division_last_digit(0::x,y,0) val remainder=clean(subtract(x,multiply(y,l,0))) val i=index(remainder,rem) in
+if(i=-1) then divide_decimal_part(remainder,y,remainder::rem,l::ans) else split(ans,i) end;
+(*gives the decimal part of the quotient when dividing x by y*)
 
 fun add_length(l,n)= if len(l)>=n then l else add_length(0::l,n);
 (*adds zeros to the end of a list until the length of the list is equal to n*)
