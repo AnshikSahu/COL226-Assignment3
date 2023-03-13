@@ -1,7 +1,46 @@
-(*Note: Lists with varriable names ending in "__" are to be read from left to
- right and the rest from right to left*)
+signature RATIONAL =
+  sig
+    type rational
+    exception rat_error
+ 
+val make_rat: bigint * bigint -> rational option
+    val rat: bigint -> rational option
+    val reci: bigint -> rational option
+    val neg: rational -> rational
+    val inverse : rational -> rational option
+    val equal : rational * rational -> bool (* equality *)
+    val less : rational * rational -> bool (* less than *)
+    val add : rational * rational -> rational (* addition *)
+    val subtract : rational * rational -> rational (* subtraction *)
+    val multiply  : rational * rational -> rational (* multiplication *)
+    val divide : rational * rational -> rational option (* division *)
+    val showRat : rational -> string
+    val showDecimal : rational -> string
+    val fromDecimal : string -> rational
+    val toDecimal : rational -> string
+end;
 
-(*Arthematic funcions---------------------------------------------------------------------------------*)
+structure Rational : RATIONAL =
+  struct
+    type rational = bigint * bigint
+    exception rat_error
+ 
+    fun make_rat (x,y) = if y=0 then NONE else SOME (x,y)
+    fun rat x = SOME (x,1)
+    fun reci (x,y) = if x=0 then NONE else SOME (y,x)
+    fun neg (x,y) = (x,~y)
+    fun inverse (x,y) = if x=0 then NONE else SOME (y,x)
+    fun equal (x,y) = x=y
+    fun less (x,y) = x<y
+    fun add (x,y) = x+y
+    fun subtract (x,y) = x-y
+    fun multiply (x,y) = x*y
+    fun divide (x,y) = if y=0 then NONE else SOME (x,y)
+    fun showRat (x,y) = showInt x ^ "/" ^ showInt y
+    fun showDecimal (x,y) = showInt x ^ "/" ^ showInt y
+    fun fromDecimal x = x
+    fun toDecimal x = x
+  end;
 
 fun digit(l) = case l of
                     x :: xs => x
@@ -46,7 +85,7 @@ fun clean(l)=if length(l)=0 then []
 (*removes unnecessary zeros from the end of the list recursively until the last element of
  the list is is non-zero*)
 
-fun subtract(l1,l2,c)=clean(dirty_subtract(l1,l2,0));
+fun subtract(l1,l2)=clean(dirty_subtract(l1,l2,0));
 (*subtracts two numbers represented as lists and also removes unnecessary zeros*)
 
 fun compare_adv(l1,l2)= case l1 of 
@@ -90,21 +129,30 @@ fun division_last_digit(x,y,c)= if compare(y,x) then c else division_last_digit(
 (*gives the last digit of the quotient when dividing x by y*)
 
 
-fun divide_integer_part(x,y)= if compare(y,x) then [[0],x] else let val l= division_last_digit(x,y,1) val r= divide_integer_part(subtract(x,multiply(y,l,0)),tl(y)) in [l::hd(r),hd(tl(r))] end;
+fun divide_integer_part(x,y,n)= if length(y)<n then [[],x] else let val l= division_last_digit(x,y,0) val r= divide_integer_part(subtract(x,multiply(y,l,0)),tl(y),n) in [l::hd(r),hd(tl(r))] end;
 (*gives the integer part of the quotient when dividing x by y*)
 
-fun split(l,n)= if n=0 then [[],l] else let val r=split(tl(l),n-1) in [hd(l)::hd(r),hd(tl(r))] end;
+fun split(l,n)= if n=0 then [tl(l),[hd(l)]] else let val r=split(tl(l),n-1) in [hd(r),hd(l)::hd(tl(r))] end;
 (*splits a list into two lists at the nth position*)
 
-fun index(l,x)= if l=[] then -1 else if hd(l)=x then 0 else 1+index(tl(l),x);
+fun index(x,l)= if l=[] then ~1 else if compare(hd(l),x)=false andalso compare(x,hd(l))=false then 0 else let val i=index(x,tl(l)) in if i= ~1 then i else 1+i end;
 (*gives the index of the first occurence of x in l*)
 
-fun divide_decimal_part(x,y,rem,ans)= if clean(x)==[] then [ans,[]] else let l=division_last_digit(0::x,y,0) val remainder=clean(subtract(x,multiply(y,l,0))) val i=index(remainder,rem) in
-if(i=-1) then divide_decimal_part(remainder,y,remainder::rem,l::ans) else split(ans,i) end;
+fun divide_decimal_part(x,y,rem,ans)= if clean(x)=[] then [ans,[]] else let val l=division_last_digit(0::x,y,0) val remainder=clean(subtract(0::x,multiply(y,l,0))) val i=index(remainder,rem) in
+if(i= ~1) then divide_decimal_part(remainder,y,remainder::rem,l::ans) else split(l::ans,i) end;
 (*gives the decimal part of the quotient when dividing x by y*)
 
-fun add_length(l,n)= if len(l)>=n then l else add_length(0::l,n);
+fun add_length(l,n)= if length(l)>=n then l else add_length(0::l,n);
 (*adds zeros to the end of a list until the length of the list is equal to n*)
 
-fun divide(x,y)= let  val k=add_length(y,len(x)) val l=divide_integer_part(x,k) val d=divide_decimal_part(hd(tl(l)),y,[]) in [hd(l),hd(d),hd(tl(d))] end;
+fun divide(x,y)= let  val k=add_length(y,length(x)) val l=divide_integer_part(x,k,length(y)) val d=divide_decimal_part(hd(tl(l)),y,[hd(tl(l))],[]) in [clean(rev(hd(l))),hd(d),hd(tl(d))] end;
 (*divides two numbers represented as lists and gives the quotient and remainder*)
+
+fun gcd(x, y) = if clean(y) = [] then x else gcd(y, hd(tl(divide_integer_part(x,y,length(y)))));
+(*gives the gcd of two numbers*)
+
+fun hcf(x,y)= if compare(x,y) then gcd(x,y) else gcd(y,x);
+(*gives the hcf of two numbers*)
+
+
+
