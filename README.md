@@ -44,6 +44,8 @@ integer::= digit | digit integer <br>
 decimal::= integer "." integer "(" integer ")" | "." integer "(" integer ")" | integer "." "(" integer ")" <br>
 digit  ::= "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9" <br>
 
+(fractions are not implemented in parser as their functionality is obtained through dividing)
+
 ## Grammar for arithmetic
 
 Start      ::= Expression ";" <br>
