@@ -1,11 +1,3 @@
-(*
-<rational-expression> ::= <rational-term> | <rational-term> "+" <rational-term>
-                        | <rational-term> "-" <rational-term>
-<rational-term> ::= <rational-factor> | <rational-factor> "*" <rational-factor>
-                   | <rational-factor> "/" <rational-factor>
-<rational-factor> ::= "(" <rational-expression> ")" | <rational> 
-*)
-
 %%
 
 %eop EOF SEMI

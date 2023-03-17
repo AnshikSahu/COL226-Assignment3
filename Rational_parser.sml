@@ -57,7 +57,7 @@ struct
 		  val _ = case result
 			    of SOME r =>
 				TextIO.output(TextIO.stdOut,
-				       "result = " ^ (Rational.showRat r) ^ "\n")
+				       "it = " ^ (Rational.showRat r) ^ "\n")
 			     | NONE => ()
 	       in if CalcParser.sameToken(nextToken,dummyEOF) then ()
 		  else loop lexer
