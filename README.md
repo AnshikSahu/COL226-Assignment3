@@ -23,39 +23,38 @@
 
 ## Grammar for representing Rationals
 
-Rational       ::= "~" rational | rational
-rational       ::= integer | decimal | fraction
-integer        ::= digit | digitinteger
-decimal        ::= integer "." integer "(" integer ")" | "." integer "(" integer ")" | integer "." "(" integer ")"
-fraction       ::= integer "/" nonzerointeger
-nonzerointeger ::= integer positivedigits
-positivedigits ::= "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9"
-digit         ::= positivedigits | "0"
+Rational       ::= "~" rational | rational <br>
+rational       ::= integer | decimal | fraction <br>
+integer        ::= digit | digitinteger <br>
+decimal        ::= integer "." integer "(" integer ")" | "." integer "(" integer ")" | integer "." "(" integer ")" <br>
+fraction       ::= integer "/" nonzerointeger <br>
+nonzerointeger ::= integer positivedigits <br>
+positivedigits ::= "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9" <br>
+digit         ::= positivedigits | "0" <br>
 
 ## Grammar used for representing values in parser
 
-NUM    ::= integer | decimal
-integer::= digit | digit integer
-decimal::= integer "." integer "(" integer ")" | "." integer "(" integer ")" | integer "." "(" integer ")"
-digit  ::= "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9"
+NUM    ::= integer | decimal <br>
+integer::= digit | digit integer <br>
+decimal::= integer "." integer "(" integer ")" | "." integer "(" integer ")" | integer "." "(" integer ")" <br>
+digit  ::= "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9" <br>
 
 ## Grammar for arithmetic
 
-Expression ::= Term | Term "+" Term | Term "-" Term
-Term       ::= Rat | Rat "*" Rat | Rat "/" Rat
-Rat        ::= RAT | variable
-RAT        ::= Rational | "(" Expression ")"
-variable   ::= alphabet | alphabet variable
-alphabet   ::= “A” | “B” | “C” | “D” | “E” | “F” | “G” | “H” | “I” | “J” | “K” | “L” | “M” | “N” | “O” |
-                 “P” | “Q” | “R” | “S” | “T” | “U” | “V” | “W” | “X” | “Y” | “Z” | “a” | “b” | “c” | “d” | 
-                 “e” | “f” | “g” | “h” | “i” | “j” | “k” | “l” | “m” | “n” | “o” | “p” | “q” | “r” | “s” | 
-                 “t” | “u” | “v” | “w” | “x” | “y” | “z”
+Expression ::= Term | Term "+" Term | Term "-" Term <br>
+Term       ::= Rat | Rat "*" Rat | Rat "/" Rat <br>
+Rat        ::= RAT | variable <br>
+RAT        ::= Rational | "(" Expression ")" <br>
+variable   ::= alphabet | alphabet variable <br>
+alphabet   ::= “A” | “B” | “C” | “D” | “E” | “F” | “G” | “H” | “I” | “J” | “K” | “L” | “M” | “N” | “O” | <br>
+                 “P” | “Q” | “R” | “S” | “T” | “U” | “V” | “W” | “X” | “Y” | “Z” | “a” | “b” | “c” | “d” | <br>
+                 “e” | “f” | “g” | “h” | “i” | “j” | “k” | “l” | “m” | “n” | “o” | “p” | “q” | “r” | “s” | <br>
+                 “t” | “u” | “v” | “w” | “x” | “y” | “z” <br>
 
 ## Grammar used for representing expressions in parser
 
-EXP        ::= NUM | EXP "+" EXP | EXP "-" EXP | EXP "*" EXP | EXP "/" EXP |
-                 "(" EXP ")"
-(The rules for associativity and precedence are mentioned separately in the parser)
+EXP        ::= NUM | EXP "+" EXP | EXP "-" EXP | EXP "*" EXP | EXP "/" EXP | "(" EXP ")" <br>
+(The rules for associativity and precedence are mentioned separately in the parser) <br>
 
 ### Acknowledgements
 
