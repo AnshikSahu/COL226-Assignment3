@@ -1,0 +1,12 @@
+Group is
+
+#if defined (NEW_CM)
+  $/basis.cm
+  $/ml-yacc-lib.cm
+#else
+  ml-yacc-lib.cm
+#endif
+  Rational_calc.grm
+  Rational_calc.lex
+  Rational_calc.sml
+  main.sml
