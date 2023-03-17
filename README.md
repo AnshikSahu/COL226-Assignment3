@@ -14,7 +14,7 @@
 
 #### How to use-
 
-1. Type your expression and press enter.
+1. Type your expression, add a semicolon at the end then press enter.
 2. Your expression can include:
     - Binary operators: "+", "-", "*" and "/" 
     - Negation: "~" (Warning: Not a operator, can only be used on values)
@@ -41,6 +41,7 @@ digit  ::= "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9" <br>
 
 ## Grammar for arithmetic
 
+Start      ::= Expression ";" <br>
 Expression ::= Term | Term "+" Term | Term "-" Term <br>
 Term       ::= Rat | Rat "*" Rat | Rat "/" Rat <br>
 Rat        ::= RAT | variable <br>
@@ -53,6 +54,7 @@ alphabet   ::= “A” | “B” | “C” | “D” | “E” | “F” | “G�
 
 ## Grammar used for representing expressions in parser
 
+START      ::= EXP ";"
 EXP        ::= NUM | EXP "+" EXP | EXP "-" EXP | EXP "*" EXP | EXP "/" EXP | "(" EXP ")" <br>
 (The rules for associativity and precedence are mentioned separately in the parser) <br>
 
