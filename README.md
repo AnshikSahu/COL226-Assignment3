@@ -7,6 +7,11 @@
 
 1. Open terminal.
 2. Go to the directory containing all files.
+3. Run "sudo sml rational.sml".
+4. Type your password and press enter key.
+
+OR
+
 3. Run "sudo sml".
 4. Type your password and press enter key.
 5. Run "CM.make "makefile.cm";".

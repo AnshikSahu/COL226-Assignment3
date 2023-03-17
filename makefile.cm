@@ -6,7 +6,7 @@ Group is
 #else
   ml-yacc-lib.cm
 #endif
-  Rational.sml
+  Rational_main.sml
   Rational_parser.lex
   Rational_parser.grm
   Rational_parser.sml
